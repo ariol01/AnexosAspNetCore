@@ -20,13 +20,14 @@
     {
         @foreach (var doc in Model)
         {
-            <tbody>
+            <tbody class="table-hover">
             <tr>
                 <th scope="row">@doc.Id</th>
                 <td>@doc.NomeDoArquivo</td>
                 <td>@doc.Descricao</td>
                 <td>@doc.DataDeCriacao</td>
                 <td>@doc.ContentType</td>
+                <td></td>
             </tr>
        
             </tbody>
