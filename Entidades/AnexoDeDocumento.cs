@@ -34,7 +34,7 @@ namespace DSAnexoDocumentoProjeto.Entidades
         [Display(Name ="Selecione um documento:")]
         [Required(ErrorMessage = "O campo arquivo é obrigatório")]
         [MaxFileSize(5 * 1024 * 1024)]
-        [AllowedExtensions(new string[] { ".jpg", ".png",".pdf"})]
+        [AllowedExtensions(new string[] { ".jpg", ".png",".pdf",".jpeg"})]
         public IFormFile Arquivo { get; set; }
         public byte[] Bytes { get; set; }
         public string ContentType { get; set; }
