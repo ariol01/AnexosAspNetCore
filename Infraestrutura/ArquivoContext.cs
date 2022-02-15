@@ -4,15 +4,15 @@ namespace DSAnexoDocumentoProjeto.Infraestrutura
 {
     public class ArquivoContext : DbContext
     {
-        //public ArquivoContext(DbContextOptions<ArquivoContext> options) : base(options)
-        //{
-
-        //}
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public ArquivoContext(DbContextOptions<ArquivoContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=UploadDB;Integrated Security=True;");
+
         }
-                
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=UploadDB;Integrated Security=True;");
+        //}
+
         public DbSet<AnexoDeDocumento> Anexos { get; set; }
     }
 }

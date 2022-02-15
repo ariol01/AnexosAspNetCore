@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DSAnexoDocumentoProjeto
 {
@@ -26,8 +27,10 @@ namespace DSAnexoDocumentoProjeto
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ArquivoContext>();     
-            
+            services.AddDbContext<ArquivoContext>(options =>
+                options.UseSqlServer("ArquivoContext"));
+                
+
             services.AddControllersWithViews();
 
             services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
