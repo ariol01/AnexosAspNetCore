@@ -4,57 +4,16 @@
     ViewData["Title"] = "Meus Documentos";
 }
 
-@*<nav class="mt-2" style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
-    </ol>
-</nav>
-<h5 class="card-title text-center">Meus documentos</h5>
-<form method="post" enctype="multipart/form-data" asp-controller="Upload" asp-action="Create">
-
-    <div class="mb-3">
-        <label asp-for="Titulo" class="form-label"></label>
-        <input type="text" asp-for="@Model.Titulo" class="form-control" id="" maxlength="100" placeholder="Ex: Solicitação, Elogio, Reclamação, Memorando e etc..." required>
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-        <span asp-validation-for="Titulo" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Descricao" class="form-label"></label>
-        <textarea asp-for="@Model.Descricao" class="form-control" id="exampleFormControlTextarea1" maxlength="2000" rows="2"></textarea>
-        <span asp-validation-for="Descricao" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="NomeDoArquivo" class="form-label"></label>
-        <input type="text" asp-for="@Model.NomeDoArquivo" class="form-control" id="" placeholder="Ex: Resumo de parecer jurídico baseado em lei 8.112/90" required>
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-        <span asp-validation-for="NomeDoArquivo" class="text-danger"></span>
-    </div>
-    <partial name="_DicasDeAnexo"/>
-    <div class="mb-3">
-        <label asp-for="Arquivo" class="form-label"></label>
-        <input type="file" asp-for="@Model.Arquivo" class="form-control" id="fileupload" required>
-        <span asp-validation-for="Arquivo" class="text-danger"></span>
-    </div>
-
-    <br />
-    <div class="form-group">
-        <div class="col-md-10">
-            <input class="btn btn-success" type="submit" value="Salvar documento" />
-        </div>
-    </div>
-
-</form>*@
-
-<table class="table">
+<h2>Lista de documentos</h2>
+<table class="table mt-2">
     <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Nome do arquivo</th>
             <th scope="col">Descricao</th>
             <th scope="col">Data de criação</th>
+            <th scope="col">Tipo de documento</th>
+            <th scope="col">Acoes</th>
         </tr>
     </thead>
     @if (Model.Any())
@@ -67,6 +26,7 @@
                 <td>@doc.NomeDoArquivo</td>
                 <td>@doc.Descricao</td>
                 <td>@doc.DataDeCriacao</td>
+                <td>@doc.ContentType</td>
             </tr>
        
             </tbody>
