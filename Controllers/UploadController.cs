@@ -24,7 +24,7 @@ namespace DSAnexoDocumentoProjeto.Controllers
         public ActionResult Index()
         {
             var arquivos = _arquivoContext.Anexos.ToList();
-            return View();
+            return View(arquivos);
         }
 
         // GET: UploadController/Details/5

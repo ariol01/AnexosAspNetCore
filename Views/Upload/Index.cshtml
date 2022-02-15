@@ -53,31 +53,25 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Nome do arquivo</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Descricao</th>
+            <th scope="col">Data de criação</th>
         </tr>
     </thead>
     @if (Model.Any())
     {
-        <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td></td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td></td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td></td>
-        </tr>
-        </tbody>
+        @foreach (var doc in Model)
+        {
+            <tbody>
+            <tr>
+                <th scope="row">@doc.Id</th>
+                <td>@doc.NomeDoArquivo</td>
+                <td>@doc.Descricao</td>
+                <td>@doc.DataDeCriacao</td>
+            </tr>
+       
+            </tbody>
+        }
+       
     }
 
 </table>
