@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DSAnexoDocumentoProjeto.Controllers
 {
@@ -21,9 +22,17 @@ namespace DSAnexoDocumentoProjeto.Controllers
             _notyfService = notyfService;
         }
         // GET: UploadController
-        public ActionResult Index()
+        public async Task<IActionResult> Index(string filtroBusca)
         {
-            var arquivos = _arquivoContext.Anexos.ToList();
+            var arquivos = await _arquivoContext.Anexos.ToListAsync();
+            ViewData["CurrentFilter"] = filtroBusca;
+            if (!string.IsNullOrEmpty(filtroBusca))
+            {
+                arquivos = arquivos.Where(a => a.ContentType.Contains(filtroBusca.ToLower()) || a.Titulo.Equals(filtroBusca.ToLower())
+                                               || a.Descricao.Contains(filtroBusca.ToLower())).ToList();
+                _notyfService.Success("Dado encontrado com sucesso.");
+            }
+
             return View(arquivos);
         }
 
@@ -42,29 +51,33 @@ namespace DSAnexoDocumentoProjeto.Controllers
         // POST: UploadController/Create        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(AnexoDeDocumento anexoDeDocumento)
+        public async Task<IActionResult> Create(AnexoDeDocumento anexoDeDocumento)
         {
             var arquivoPdf = anexoDeDocumento.Arquivo;
             var tamanhoMaximo = 50000000;
-            if (anexoDeDocumento.Arquivo.FileName.Contains(".zip") || anexoDeDocumento.Arquivo.FileName.Contains(".exe") || anexoDeDocumento.Arquivo.FileName.Contains(".bat"))
-            {
-                _notyfService.Error("Erro. Documento com extensão .Exe ou .Zip ou .Bat não permitido.");
-                return RedirectToAction(nameof(Index));
-            }
 
             if (arquivoPdf.Length > tamanhoMaximo)
             {
                 _notyfService.Warning("Erro. Tamanho máximo do documento é 5Mb.");
+                return View();
             }
+            if (anexoDeDocumento.Arquivo.FileName.Contains(".zip") || anexoDeDocumento.Arquivo.FileName.Contains(".exe") || anexoDeDocumento.Arquivo.FileName.Contains(".bat"))
+            {
+                _notyfService.Error("Erro. Documento com extensão .Exe ou .Zip ou .Bat não permitido.");
+                return View();
+            }
+
             if (ModelState.IsValid)
             {
-                if (arquivoPdf != null)
+                if (anexoDeDocumento != null && anexoDeDocumento.Arquivo != null)
                 {
                     MemoryStream ms = new MemoryStream();
                     arquivoPdf.OpenReadStream().CopyTo(ms);
 
                     anexoDeDocumento.Bytes = ms.ToArray();
                     anexoDeDocumento.ContentType = arquivoPdf.ContentType;
+                    anexoDeDocumento.Descricao.ToLower();
+                    anexoDeDocumento.Titulo.ToLower();
 
                     _arquivoContext.Anexos.Add(anexoDeDocumento);
                     _arquivoContext.SaveChanges();
@@ -73,8 +86,8 @@ namespace DSAnexoDocumentoProjeto.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
-            _notyfService.Error("Erro. Requisição falhou. Tente novamente.");
-            return RedirectToAction(nameof(Index));
+            _notyfService.Error("Erro.Dados do documento inválido.");
+            return View();
         }
 
         // GET: UploadController/Edit/5

@@ -3,54 +3,36 @@
 @{
     ViewData["Title"] = "Meus Documentos";
 }
+<nav class="mt-2" style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+<button type="button" class="btn btn-outline-primary bi bi-plus-square">Novo documento</button>
+<h5 class="card-title text-center">Meus documentos</h5>
 
-<h2>Lista de documentos</h2>
-<table class="table mt-2">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nome do arquivo</th>
-            <th scope="col">Descricao</th>
-            <th scope="col">Data de criação</th>
-            <th scope="col">Tipo de documento</th>
-            <th scope="col">Acoes</th>
-        </tr>
-    </thead>
-    @if (Model.Any())
-    {
-        @foreach (var doc in Model)
-        {
-            <tbody class="table-hover">
-            <tr>
-                <th scope="row">@doc.Id</th>
-                <td>@doc.NomeDoArquivo</td>
-                <td>@doc.Descricao</td>
-                <td>@doc.DataDeCriacao</td>
-                <td>@doc.ContentType</td>
-                <td>
-                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                       
-                        <div class="btn-group" role="group">
-                            <button id="btnGroupDrop1" type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Ação
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="#">Alterar</a>
-                                <a class="dropdown-item" href="#">Editar</a>
-                                <a class="dropdown-item" href="#">Excluir</a>
-                                <a class="dropdown-item" href="#">Baixar</a>
-                            </div>
-                        </div>
-                    </div>
+<partial name="_DicasFiltro" />
 
-                </td>
-            </tr>
-       
-            </tbody>
-        }
-       
-    }
+<form asp-controller="Upload" asp-action="Index"  method="get">
 
-</table>
+    <label class="form-label input-group">Filtro:</label>
+    <div class="input-group">
+
+        <div class="form-outline ">
+            <input id="searchFiltro" type="search" class="form-control" name="filtroBusca" value="@ViewData["CurrentFilter"]" />
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+            </svg>
+        </button>
+    </div>
+
+
+</form>
+
+<br />
+<partial name="_MeusDocumentos" model="Model" />
 
 
