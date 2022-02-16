@@ -37,9 +37,10 @@ namespace DSAnexoDocumentoProjeto.Controllers
         }
 
         // GET: UploadController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult ViewPdf(int id)
         {
-            return View();
+            var documentoAnexo =  _arquivoContext.Anexos.AsNoTracking().FirstOrDefault(x=>x.Id == id);
+            return File(documentoAnexo.Bytes, documentoAnexo.ContentType);
         }
 
         // GET: UploadController/Create

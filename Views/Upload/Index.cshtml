@@ -9,7 +9,7 @@
         <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
     </ol>
 </nav>
-<button type="button" class="btn btn-outline-primary bi bi-plus-square">Novo documento</button>
+<a href="@Url.Action("Create","Upload")" type="button" class="btn btn-outline-primary bi bi-plus-square">Novo documento</a>
 <h5 class="card-title text-center">Meus documentos</h5>
 
 <partial name="_DicasFiltro" />
