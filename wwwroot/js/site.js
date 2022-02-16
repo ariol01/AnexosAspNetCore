@@ -2,13 +2,14 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+var token = getToken();
+var RequestVerificationToken = $('input[name="__RequestVerificationToken"]').val();
 
-var RequestVerificationToken = document.querySelector("[name='__RequestVerificationToken']").value
 
 function ConfirmarExclusaoDoAnexo(id) {
     Swal.fire({
         title: 'Deseja remover este documento ?',
-        text: 'Ao excluir um anexo não será mais possível recuperá-lo.',
+        text: '',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -40,4 +41,20 @@ function NotificarErro() {
         icon: 'error',
         title: 'Ocorreu um erro!',
     })
+}
+
+function excluirAnexoDeDocumento(id) {
+
+    $.ajax({
+        type: "POST",
+        url: "/Upload/Delete/",
+        data: { id },
+        headers: { token },
+        //success: function () {
+        //    NotificarSucesso();
+        //},
+        //error: function () {
+        //    NotificarErro();
+        //}
+    });
 }

@@ -103,7 +103,7 @@
     @await Component.InvokeAsync("Notyf")
     
 <script>
-    function gettoken() {
+    function getToken() {
         var token = '@Html.AntiForgeryToken()';
         token = $(token).val();
         return token;
