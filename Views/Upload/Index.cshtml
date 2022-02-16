@@ -27,7 +27,23 @@
                 <td>@doc.Descricao</td>
                 <td>@doc.DataDeCriacao</td>
                 <td>@doc.ContentType</td>
-                <td></td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                       
+                        <div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Ação
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a class="dropdown-item" href="#">Alterar</a>
+                                <a class="dropdown-item" href="#">Editar</a>
+                                <a class="dropdown-item" href="#">Excluir</a>
+                                <a class="dropdown-item" href="#">Baixar</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </td>
             </tr>
        
             </tbody>
