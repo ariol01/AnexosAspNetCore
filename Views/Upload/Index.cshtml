@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Meus Documentos";
+
 }
 <nav class="mt-2" style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -9,30 +10,65 @@
         <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
     </ol>
 </nav>
-<a href="@Url.Action("Create","Upload")" type="button" class="btn btn-outline-primary bi bi-plus-square">Novo documento</a>
-<h5 class="card-title text-center">Meus documentos</h5>
+<a href="@Url.Action("Create","Upload")" type="button" class="btn btn-outline-primary bi bi-plus-square mb-2">Novo documento</a>
 
 <partial name="_DicasFiltro" />
 
-<form asp-controller="Upload" asp-action="Index"  method="get">
+<div class="card text-center">
+    <h5 class="card-header">@ViewData["Title"]</h5>
+    <div class="card-body">
+        @*<h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>*@
 
-    <label class="form-label input-group">Filtro:</label>
-    <div class="input-group">
 
-        <div class="form-outline ">
-            <input id="searchFiltro" type="search" class="form-control" name="filtroBusca" value="@ViewData["CurrentFilter"]" />
-        </div>
-        <button type="submit" class="btn btn-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
-            </svg>
-        </button>
+        <form asp-controller="Upload" asp-action="Index" method="get">
+
+            <label class="form-label input-group">Filtro:</label>
+            <div class="input-group">
+
+                <div class="form-outline ">
+                    <input id="searchFiltro" type="search" class="form-control" name="filtroBusca" value="@ViewData["CurrentFilter"]" />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+                    </svg>
+                </button>
+            </div>
+
+
+        </form>
+
+        <br />
+        <partial name="_MeusDocumentos" model="Model" />
+
+
+
     </div>
 
+</div>
 
-</form>
+@section Scripts{
+    
+    <script>
+        function excluirAnexoDeDocumento(id) {
 
-<br />
-<partial name="_MeusDocumentos" model="Model" />
+            $.ajax({
+                type: "POST",
+                url: "/Upload/AprovarCadastroExcepcional/",
+                data: { id },
+                headers: { RequestVerificationToken },
+                //success: function () {
+                //    NotificarSucesso();
+                //},
+                //error: function () {
+                //    NotificarErro();
+                //}
+            });
+        }
+    </script>
 
+}
 
+   

@@ -9,39 +9,50 @@
         <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
     </ol>
 </nav>
-<h5 class="card-title text-center">Criar documento</h5>
 
-<form class="row g-3 mt-1" method="post" enctype="multipart/form-data" asp-controller="Upload" asp-action="Create">
-    <partial name="_DicasDeAnexo" />
-    <div class="col-md-6">
-        <label asp-for="Titulo" class="form-label"></label>
-        <input type="text" asp-for="@Model.Titulo" class="form-control" id="" maxlength="100" placeholder="Ex: Solicitação, Elogio, Reclamação, Memorando e etc..." required>
-        <span asp-validation-for="Titulo" class="text-danger"></span>
-    </div>
-    <div class="col-md-6">
-        <label asp-for="NomeDoArquivo" class="form-label"></label>
-        <input type="text" asp-for="@Model.NomeDoArquivo" class="form-control" id="" placeholder="Ex: Meu portfólio de 2010" required>
-        <span asp-validation-for="NomeDoArquivo" class="text-danger"></span>
-    </div>
+@*<h5 class="card-title text-center">Criar documento</h5>*@
 
-    <div class="col-mb-3">
-        <label asp-for="Descricao" class="form-label"></label>
-        <textarea asp-for="@Model.Descricao" class="form-control" id="exampleFormControlTextarea1" maxlength="2000" rows="2"></textarea>
-        <span asp-validation-for="Descricao" class="text-danger"></span>
-    </div>
+<div class="card">
+    <h5 class="card-header">@ViewData["Title"]</h5>
+    <div class="card-body">
 
-    <div class="mb-3">
-        <label asp-for="Arquivo" class="form-label"></label>
-        <input type="file" asp-for="@Model.Arquivo" class="form-control" id="fileupload" required>
-        <span asp-validation-for="Arquivo" class="text-danger"></span>
-    </div>
+        @*<h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>*@
 
-    <div class="form-group">
-        <div class="col-md-">
-            <input class="btn btn-success" type="submit" value="Salvar documento" />
-        </div>
-    </div>
+        <form class="row g-3 mt-1" method="post" enctype="multipart/form-data" asp-controller="Upload" asp-action="Create">
+            <partial name="_DicasDeAnexo"/>
+            <div class="col-md-6">
+                <label asp-for="Titulo" class="form-label"></label>
+                <input type="text" asp-for="@Model.Titulo" class="form-control" id="" maxlength="100" placeholder="Ex: Solicitação, Elogio, Reclamação, Memorando e etc..." required>
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="NomeDoArquivo" class="form-label"></label>
+                <input type="text" asp-for="@Model.NomeDoArquivo" class="form-control" id="" placeholder="Ex: Meu portfólio de 2010" required>
+                <span asp-validation-for="NomeDoArquivo" class="text-danger"></span>
+            </div>
 
-</form>
+            <div class="col-mb-3">
+                <label asp-for="Descricao" class="form-label"></label>
+                <textarea asp-for="@Model.Descricao" class="form-control" id="exampleFormControlTextarea1" maxlength="2000" rows="2"></textarea>
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Arquivo" class="form-label"></label>
+                <input type="file" asp-for="@Model.Arquivo" class="form-control" id="fileupload" required>
+                <span asp-validation-for="Arquivo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-">
+                    <input class="btn btn-success" type="submit" value="Salvar documento"/>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
 
 

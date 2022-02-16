@@ -39,7 +39,7 @@ namespace DSAnexoDocumentoProjeto.Controllers
         // GET: UploadController/Details/5
         public ActionResult ViewPdf(int id)
         {
-            var documentoAnexo =  _arquivoContext.Anexos.AsNoTracking().FirstOrDefault(x=>x.Id == id);
+            var documentoAnexo = _arquivoContext.Anexos.AsNoTracking().FirstOrDefault(x => x.Id == id);
             return File(documentoAnexo.Bytes, documentoAnexo.ContentType);
         }
 
@@ -115,7 +115,11 @@ namespace DSAnexoDocumentoProjeto.Controllers
         // GET: UploadController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var documentoAnexo = _arquivoContext.Anexos.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            _arquivoContext.Anexos.Remove(documentoAnexo);
+            _arquivoContext.SaveChanges();
+            _notyfService.Success("Documento excluído com sucesso.");
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: UploadController/Delete/5
