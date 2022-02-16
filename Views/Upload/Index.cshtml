@@ -17,11 +17,6 @@
 <div class="card text-center">
     <h5 class="card-header">@ViewData["Title"]</h5>
     <div class="card-body">
-        @*<h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>*@
-
-
         <form asp-controller="Upload" asp-action="Index" method="get">
 
             <label class="form-label input-group">Filtro:</label>
@@ -50,8 +45,25 @@
 </div>
 
 @section Scripts{
-    
-    
+
+    <script>
+        function excluirAnexoDeDocumento(id) {
+          
+            $.ajax({
+                type: "POST",
+                url: "/Upload/Delete",
+                data: { id },
+                success: function () {
+                    NotificarSucesso();
+
+                },
+                error: function () {
+                    NotificarErro();
+                }
+            });
+        }
+    </script>
+
+
 }
 
-   

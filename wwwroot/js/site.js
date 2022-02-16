@@ -2,11 +2,11 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-var token = getToken();
-var RequestVerificationToken = $('input[name="__RequestVerificationToken"]').val();
 
+//var token = getToken();
+//var RequestVerificationToken = $('input[name="__RequestVerificationToken"]').val();
 
-function ConfirmarExclusaoDoAnexo(id) {
+function confirmarExclusaoDoAnexo(id) {
     Swal.fire({
         title: 'Deseja remover este documento ?',
         text: '',
@@ -15,7 +15,7 @@ function ConfirmarExclusaoDoAnexo(id) {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         cancelButtonText: 'Não',
-        confirmButtonText: 'Sim, Excluir!'
+        confirmButtonText: 'Sim'
     }).then((result) => {
         if (result.value) {
             excluirAnexoDeDocumento(id)
@@ -43,18 +43,3 @@ function NotificarErro() {
     })
 }
 
-function excluirAnexoDeDocumento(id) {
-
-    $.ajax({
-        type: "POST",
-        url: "/Upload/Delete/",
-        data: { id },
-        headers: { token },
-        //success: function () {
-        //    NotificarSucesso();
-        //},
-        //error: function () {
-        //    NotificarErro();
-        //}
-    });
-}

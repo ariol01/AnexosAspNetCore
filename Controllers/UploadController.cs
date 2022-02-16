@@ -120,19 +120,20 @@ namespace DSAnexoDocumentoProjeto.Controllers
 
         // POST: UploadController/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             if (id > 0)
             {
                 var documentoAnexo = _arquivoContext.Anexos.AsNoTracking().FirstOrDefault(x => x.Id == id);
+              
                 _arquivoContext.Anexos.Remove(documentoAnexo);
-                _arquivoContext.SaveChanges();
                 _notyfService.Success("Documento excluído com sucesso.");
-                return RedirectToAction(nameof(Index));
+                _arquivoContext.SaveChanges();
+                
             }
             _notyfService.Error("Erro ao tentar excluir documento.");
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Upload");
         }
     }
 }
