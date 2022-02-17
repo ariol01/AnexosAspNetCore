@@ -94,28 +94,63 @@ namespace DSAnexoDocumentoProjeto.Controllers
         // GET: UploadController/Edit/5
         public ActionResult Edit(int id)
         {
+            var documentoAnexo = _arquivoContext.Anexos.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            if (documentoAnexo != null)
+            {
+                return View(documentoAnexo);
+            }
+            _notyfService.Warning("Atenção. Não é possível editar o documento.");
             return View();
         }
 
         // POST: UploadController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(AnexoDeDocumento anexoDeDocumento)
         {
-            try
+            var arquivoPdf = anexoDeDocumento.Arquivo;
+            var tamanhoMaximo = 50000000;
+
+            if (arquivoPdf.Length > tamanhoMaximo)
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
+                _notyfService.Warning("Erro. Tamanho máximo do documento é 5Mb.");
                 return View();
             }
+            if (anexoDeDocumento.Arquivo.FileName.Contains(".zip") || anexoDeDocumento.Arquivo.FileName.Contains(".exe") || anexoDeDocumento.Arquivo.FileName.Contains(".bat"))
+            {
+                _notyfService.Error("Erro. Documento com extensão .Exe ou .Zip ou .Bat não permitido.");
+                return View();
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (anexoDeDocumento != null && anexoDeDocumento.Arquivo != null)
+                {
+                    MemoryStream ms = new MemoryStream();
+                    arquivoPdf.OpenReadStream().CopyTo(ms);
+
+                    anexoDeDocumento.Bytes = ms.ToArray();
+                    anexoDeDocumento.ContentType = arquivoPdf.ContentType;
+                    anexoDeDocumento.Descricao.ToLower();
+                    anexoDeDocumento.Titulo.ToLower();
+
+                    _arquivoContext.Anexos.Update(anexoDeDocumento);
+                    _arquivoContext.SaveChanges();
+
+                    _notyfService.Success("Documento salvo com sucesso.");
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            _notyfService.Error("Erro.Dados do documento inválido.");
+            return View();
         }
 
-        // GET: UploadController/Delete/5
-        public ActionResult Delete(int id, string texto)
+       
+        public ActionResult Download(int id)
         {
-            return View();
+            var documentoAnexo = _arquivoContext.Anexos.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            var extensaoDoArquivo = documentoAnexo.NomeDoArquivo + "." + documentoAnexo.ContentType.Split("/")[1];
+            return File(documentoAnexo.Bytes, "application/x-msdownload", extensaoDoArquivo);
         }
 
         // POST: UploadController/Delete/5

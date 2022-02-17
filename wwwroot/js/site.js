@@ -8,7 +8,7 @@
 
 function confirmarExclusaoDoAnexo(id) {
     Swal.fire({
-        title: 'Deseja remover este documento ?',
+        title: 'Deseja remover o documento ?',
         text: '',
         icon: 'warning',
         showCancelButton: true,
