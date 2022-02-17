@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<AnexoDeDocumento>;
 
 @{
-    ViewData["Title"] = "Meus Documentos";
+    ViewData["Title"] = "Meus documentos";
 
 }
 <nav class="mt-2" style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
@@ -10,20 +10,17 @@
         <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
     </ol>
 </nav>
-<a href="@Url.Action("Create","Upload")" type="button" class="btn btn-outline-primary bi bi-plus-square mb-2">Novo documento</a>
+<a href="@Url.Action("Create","Upload")" type="button" class="btn btn-outline-primary mb-2"> <i class="bi bi-plus-square"></i><span class="ms-1 d-none d-sm-inline">Novo documento</span> </a>
 
-<partial name="_DicasFiltro" />
-
-<div class="card text-center">
+<div class="card text-left">
     <h5 class="card-header">@ViewData["Title"]</h5>
     <div class="card-body">
         <form asp-controller="Upload" asp-action="Index" method="get">
 
-            <label class="form-label input-group">Filtro:</label>
-            <div class="input-group">
+          <div class="input-group">
 
                 <div class="form-outline ">
-                    <input id="searchFiltro" type="search" class="form-control" name="filtroBusca" value="@ViewData["CurrentFilter"]" />
+                    <input id="searchFiltro" type="search" class="form-control col-md-6" placeholder=" Você pode filtar por Descrição , Título ou Tipo de documento" name="filtroBusca" value="@ViewData["CurrentFilter"]" />
                 </div>
                 <button type="submit" class="btn btn-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">

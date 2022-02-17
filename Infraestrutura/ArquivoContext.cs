@@ -10,7 +10,8 @@ namespace DSAnexoDocumentoProjeto.Infraestrutura
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=anexo-documento-db.c5au5rghvszj.sa-east-1.rds.amazonaws.com;Database=UploadDB;User=admin;Password=$dba_ariol;");
+            optionsBuilder.UseSqlServer(@"Data Source=SQL5086.site4now.net;Initial Catalog=db_a83110_anexodb;User Id=db_a83110_anexodb_admin;Password=arioldba123");
+
         }
 
         public DbSet<AnexoDeDocumento> Anexos { get; set; }

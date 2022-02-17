@@ -124,13 +124,16 @@ namespace DSAnexoDocumentoProjeto.Controllers
 
             if (ModelState.IsValid)
             {
-                if (anexoDeDocumento != null && anexoDeDocumento.Arquivo != null)
+                if (anexoDeDocumento != null)
                 {
-                    MemoryStream ms = new MemoryStream();
-                    arquivoPdf.OpenReadStream().CopyTo(ms);
-
-                    anexoDeDocumento.Bytes = ms.ToArray();
-                    anexoDeDocumento.ContentType = arquivoPdf.ContentType;
+                    if (anexoDeDocumento.Arquivo != null)
+                    {
+                        MemoryStream ms = new MemoryStream();
+                        arquivoPdf.OpenReadStream().CopyTo(ms);
+                        anexoDeDocumento.Bytes = ms.ToArray();
+                        anexoDeDocumento.ContentType = arquivoPdf.ContentType;
+                    }
+                    
                     anexoDeDocumento.Descricao.ToLower();
                     anexoDeDocumento.Titulo.ToLower();
 
