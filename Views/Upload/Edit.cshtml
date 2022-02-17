@@ -1,4 +1,4 @@
-﻿@model AnexoDeDocumento;
+﻿@model DSAnexoDocumentoProjeto.Entidades.ViewModel.AnexoDocumentoViewModel;
 @{
     ViewData["Title"] = "Editar documento";
 }
@@ -15,7 +15,8 @@
 <div class="card">
     <h5 class="card-header">@ViewData["Title"]</h5>
     <div class="card-body">
-
+         <input type="text" asp-for="Id" value="@Model.Id"/>
+         <input asp-for="Bytes" value="@Model.Bytes"/>
         <form class="row g-3 mt-1" method="post" enctype="multipart/form-data" asp-controller="Upload" asp-action="Edit">
             <partial name="_DicasDeAnexo" />
             <div class="col-md-6">

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DSAnexoDocumentoProjeto.Entidades.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace DSAnexoDocumentoProjeto.Controllers
@@ -95,9 +96,20 @@ namespace DSAnexoDocumentoProjeto.Controllers
         public ActionResult Edit(int id)
         {
             var documentoAnexo = _arquivoContext.Anexos.AsNoTracking().FirstOrDefault(x => x.Id == id);
-            if (documentoAnexo != null)
+            var anexoDoc = new AnexoDocumentoViewModel
             {
-                return View(documentoAnexo);
+                Id = documentoAnexo.Id,
+                ContentType = documentoAnexo.ContentType,
+                Titulo = documentoAnexo.Titulo,
+                NomeDoArquivo = documentoAnexo.NomeDoArquivo,
+                Descricao = documentoAnexo.Descricao,
+                Bytes = documentoAnexo.Bytes,
+                DataDeCriacao = documentoAnexo.DataDeCriacao,
+
+            };
+            if (anexoDoc != null)
+            {
+                return View(anexoDoc);
             }
             _notyfService.Warning("Atenção. Não é possível editar o documento.");
             return View();
@@ -106,17 +118,34 @@ namespace DSAnexoDocumentoProjeto.Controllers
         // POST: UploadController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(AnexoDeDocumento anexoDeDocumento)
+        public ActionResult Edit(AnexoDocumentoViewModel anexoDeDocumentoViewModel)
         {
-            var arquivoPdf = anexoDeDocumento.Arquivo;
+
+            var arquivoFormFile = anexoDeDocumentoViewModel.Arquivo;
+            var documentoAnexo = _arquivoContext.Anexos.AsNoTracking().FirstOrDefault(x => x.Id == anexoDeDocumentoViewModel.Id);
             var tamanhoMaximo = 50000000;
 
-            if (arquivoPdf.Length > tamanhoMaximo)
+            if (anexoDeDocumentoViewModel.Arquivo != null)
+            {
+                MemoryStream ms = new MemoryStream();
+                arquivoFormFile.OpenReadStream().CopyTo(ms);
+                anexoDeDocumentoViewModel.Bytes = ms.ToArray();
+                anexoDeDocumentoViewModel.ContentType = arquivoFormFile.ContentType;
+            }
+            else
+            {
+                var stream = new MemoryStream(documentoAnexo.Bytes);
+                arquivoFormFile = new FormFile(stream, 0, documentoAnexo.Bytes.Length, anexoDeDocumentoViewModel.Descricao, anexoDeDocumentoViewModel.NomeDoArquivo);
+                anexoDeDocumentoViewModel.Bytes = documentoAnexo.Bytes;
+                anexoDeDocumentoViewModel.ContentType = documentoAnexo.ContentType;
+            }
+
+            if (arquivoFormFile.Length > tamanhoMaximo)
             {
                 _notyfService.Warning("Erro. Tamanho máximo do documento é 5Mb.");
                 return View();
             }
-            if (anexoDeDocumento.Arquivo.FileName.Contains(".zip") || anexoDeDocumento.Arquivo.FileName.Contains(".exe") || anexoDeDocumento.Arquivo.FileName.Contains(".bat"))
+            if (arquivoFormFile.FileName.Contains(".zip") || arquivoFormFile.FileName.Contains(".exe") || arquivoFormFile.FileName.Contains(".bat"))
             {
                 _notyfService.Error("Erro. Documento com extensão .Exe ou .Zip ou .Bat não permitido.");
                 return View();
@@ -124,20 +153,25 @@ namespace DSAnexoDocumentoProjeto.Controllers
 
             if (ModelState.IsValid)
             {
-                if (anexoDeDocumento != null)
+                if (anexoDeDocumentoViewModel != null)
                 {
-                    if (anexoDeDocumento.Arquivo != null)
-                    {
-                        MemoryStream ms = new MemoryStream();
-                        arquivoPdf.OpenReadStream().CopyTo(ms);
-                        anexoDeDocumento.Bytes = ms.ToArray();
-                        anexoDeDocumento.ContentType = arquivoPdf.ContentType;
-                    }
-                    
-                    anexoDeDocumento.Descricao.ToLower();
-                    anexoDeDocumento.Titulo.ToLower();
 
-                    _arquivoContext.Anexos.Update(anexoDeDocumento);
+                    anexoDeDocumentoViewModel.Arquivo = documentoAnexo.Arquivo;
+                    anexoDeDocumentoViewModel.Descricao.ToLower();
+                    anexoDeDocumentoViewModel.Titulo.ToLower();
+
+                    var anexoDocumento = new AnexoDeDocumento
+                    {
+                        Id = anexoDeDocumentoViewModel.Id,
+                        Titulo = anexoDeDocumentoViewModel.Titulo,
+                        NomeDoArquivo = anexoDeDocumentoViewModel.NomeDoArquivo,
+                        Descricao = anexoDeDocumentoViewModel.Descricao,
+                        DataDeCriacao = anexoDeDocumentoViewModel.DataDeCriacao,
+                        ContentType = anexoDeDocumentoViewModel.ContentType,
+                        Bytes = anexoDeDocumentoViewModel.Bytes,
+                    };
+
+                    _arquivoContext.Anexos.Update(anexoDocumento);
                     _arquivoContext.SaveChanges();
 
                     _notyfService.Success("Documento salvo com sucesso.");
@@ -148,7 +182,7 @@ namespace DSAnexoDocumentoProjeto.Controllers
             return View();
         }
 
-       
+
         public ActionResult Download(int id)
         {
             var documentoAnexo = _arquivoContext.Anexos.AsNoTracking().FirstOrDefault(x => x.Id == id);
@@ -164,11 +198,11 @@ namespace DSAnexoDocumentoProjeto.Controllers
             if (id > 0)
             {
                 var documentoAnexo = _arquivoContext.Anexos.AsNoTracking().FirstOrDefault(x => x.Id == id);
-              
+
                 _arquivoContext.Anexos.Remove(documentoAnexo);
                 _notyfService.Success("Documento excluído com sucesso.");
                 _arquivoContext.SaveChanges();
-                
+
             }
             _notyfService.Error("Erro ao tentar excluir documento.");
             return RedirectToAction("Index", "Upload");
