@@ -4,10 +4,11 @@
 *@
 
 <div class="table-responsive mt-2">
-    <table class="table table-bordered border-primary">
-        <thead class="">
-            <tr class="">
+    <table class="table">
+        <thead>
+            <tr>
                 <th scope="col">Nome do arquivo</th>
+                <th scope="col">Título do documento</th>
                 <th scope="col">Descrição</th>
                 <th scope="col">Data do documento</th>
                 <th scope="col">Tipo de documento</th>
@@ -16,13 +17,14 @@
         </thead>
         @if (Model.Any())
         {
-            <tbody class="">
+            <tbody>
                 @foreach (var doc in Model)
                 {
 
 
                     <tr>
                         <td>@doc.NomeDoArquivo</td>
+                        <td>@doc.Titulo</td>
                         <td>@doc.Descricao</td>
                         <td>@doc.DataDeCriacao</td>
                         <td>@doc.ContentType.Split("/")[1]</td>

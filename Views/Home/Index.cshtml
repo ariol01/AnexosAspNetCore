@@ -2,10 +2,50 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Bem vindo</h1>
-</div>
 
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <h1 class="title-bem-vindo mt-3 ">Bem-vindo à Docspider Software!</h1>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-8 mt-3">
+
+            <p class="text-bem-vindo">
+                A Docspider Software S.A., fundada em 1991, consolidou-se como especialista em
+                tecnologias e serviços para governança de normativos, compliance, automatização e gestão de
+                processos de negócios, documentos, colaboração e conhecimento, instrumentos normativos e
+                regulatórios, formulários eletrônicos inteligentes e conteúdos organizacionais. Entre os destaques
+                do portfólio de produtos as aplicações para racionalização contínua de custos, ambiente estruturado
+                de performance e conformidade empresarial, sustentação e eficácia em governança, compliance e
+                suporte a
+                auditorias.
+            </p>
+            <p class="text-bem-vindo">
+                Por meio da sua aderência, potencialidade, comprometimento, qualidade,
+                resultados e inovação, o portfólio de produtos e serviços Docspider tem sido reconhecido no mercado
+                através de relevantes projetos em Instituições Bancárias, Seguradoras, Financeiras, Organizações
+                Industriais e de Serviços,
+                implementando Soluções Digitais em importantes instituições e empresas, com alto valor agregado,
+                suporte à
+                competitividade e excelente relação custo benefício no curto prazo.
+            </p>
+            <p class="text-bem-vindo">
+                Com uma base instalada superior a 360 mil usuários, convidamos para conhecer
+                os mais diversos cases e
+                exemplos de soluções, processos de negócios automatizados e otimizados com nossa tecnologia e como
+                agregar valores, benefícios e sustentabilidade em implementações para ajudar nas necessidades de
+                gestão, automatização, integração e colaboração de forma eficiente e eficaz em sua organização e
+                também manter a conformidade e sustentabilidade nas operações de seu negócio e auditorias dos
+                organismos reguladores de mercado.
+            </p>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-4">
+            <img class="img-fluid img-empresa mt-4" src="img/docspider.png" alt="">
+        </div>
+
+    </div>
+</div>
+<hr />
 <!--Div that will hold the pie chart-->
 <div class="d-flex justify-content-center chartAnexo" id="chart_div"></div>
 
@@ -25,24 +65,41 @@
     function drawChart() {
 
         // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-            ['Mushrooms', 3],
-            ['Onions', 1],
-            ['Olives', 1],
-            ['Zucchini', 1],
-            ['Pepperoni', 2]
-        ]);
+        $(function() {
 
-        // Set chart options
-        var options = {'title':'Documentos anexados',
-            'width':500,
-            'height':400};
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetChartDocumento",
+               success: function (response) {
+                   var chartData = response.jsonList;
+                   /*JSON.parse(chartData)*/
+                   var data = new google.visualization.DataTable();
+                   data.addColumn('string', 'CategoriaDocumento');
+                   data.addColumn('number', 'QuantidadeDocumento');
 
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
+                   /*data.addRows(chartData);*/
+
+                   for (var i = 0; i < chartData.length; i++) {
+                       data.addRow([chartData[i].categoriaDocumento, chartData[i].quantidadeDocumento]);
+                   }
+                   
+                   // Set chart options
+                   var options = {'title':'Documentos anexados',
+                       'width':500,
+                       'height':400};
+
+                   // Instantiate and draw our chart, passing in some options.
+                   var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                   chart.draw(data, options);
+
+                },
+                error: function () {
+                    console.log("Nenhum anexo na base de dados");
+                }
+            });
+
+
+        });
+        
     }
 </script>

@@ -8,11 +8,11 @@ namespace DSAnexoDocumentoProjeto.Infraestrutura
         {
 
         }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(@"");
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"");
 
-        //}
+        }
 
         public DbSet<AnexoDeDocumento> Anexos { get; set; }
     }

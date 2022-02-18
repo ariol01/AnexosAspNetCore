@@ -10,26 +10,23 @@
         <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
     </ol>
 </nav>
-<a href="@Url.Action("Create","Upload")" type="button" class="btn btn-outline-primary mb-2"> <i class="bi bi-plus-square"></i><span class="ms-1 d-none d-sm-inline">Novo documento</span> </a>
+<a href="@Url.Action("Create","Upload")" type="button" class="btn btn-outline-primary mb-2"> <i class="bi bi-plus-square"></i><span class="ms-1  d-sm-inline">Novo documento</span> </a>
 
 <div class="card text-left">
     <h5 class="card-header">@ViewData["Title"]</h5>
     <div class="card-body">
         <form asp-controller="Upload" asp-action="Index" method="get">
-
-          <div class="input-group">
-
-                <div class="form-outline ">
-                    <input id="searchFiltro" type="search" class="form-control col-md-6" placeholder=" Você pode filtar por Descrição , Título ou Tipo de documento" name="filtroBusca" value="@ViewData["CurrentFilter"]" />
-                </div>
+            
+            
+            <div class="input-group mb-3">
+                <input id="searchFiltro" type="search" class="form-control col-md-6" placeholder=" Filtro Descrição, Título e Tipo de documento" name="filtroBusca" value="@ViewData["CurrentFilter"]" />
                 <button type="submit" class="btn btn-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
                     </svg>
                 </button>
             </div>
-
-
+                
         </form>
 
         <br />
