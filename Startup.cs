@@ -33,7 +33,7 @@ namespace DSAnexoDocumentoProjeto
 
             services.AddControllersWithViews();
 
-            services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
+            services.AddNotyf(config => { config.DurationInSeconds = 7; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
 
         }
 
